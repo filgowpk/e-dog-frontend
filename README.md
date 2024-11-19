@@ -12,6 +12,14 @@
 
 ---
 
+## 📸 Preview
+
+Below is a preview of the application:
+![E-Dog](https://github.com/user-attachments/assets/aeafc6df-c5b7-45a5-ba90-0be3b9a7009a)
+
+
+---
+
 ## 🔧 Technologies
 
 The project was built using the following technologies:
