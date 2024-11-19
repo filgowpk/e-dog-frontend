@@ -1,0 +1,109 @@
+.main-content {
+  padding: 20px;
+  background-color: #f9f3ed;
+  font-family: 'Arial', sans-serif;
+}
+
+.content-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.cards-section {
+  flex: 1;
+  max-width: 60%;
+}
+
+.intro {
+  margin-bottom: 30px;
+}
+
+.intro h1 {
+  font-size: 2.5rem;
+  color: #4a4a4a;
+}
+
+.intro p {
+  font-size: 1.2rem;
+  color: #6a6a6a;
+}
+
+.card-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+  width: 100%;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.card h3 {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 5px;
+  padding: 10px 0px 0px 10px;
+}
+
+.card p {
+  font-size: 1rem;
+  color: #666;
+  line-height: 1.4;
+  padding: 0px 0px 0px 10px;
+}
+
+.large-card {
+  flex: 2;
+}
+
+.small-card {
+  flex: 1;
+}
+
+.full-width-card {
+  width: 100%;
+}
+
+.half-width-card {
+  flex: 1;
+}
+
+.image-section {
+  flex: 1;
+  max-width: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.image-section img {
+  max-width: 74%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
