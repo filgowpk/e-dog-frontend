@@ -37,6 +37,7 @@ src/
 ├── index.js              # Application entry point
 ├── App.css               # Main styles
 └── MainContent.css       # Styling for the main section
+```
 
 ---
 
