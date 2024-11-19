@@ -43,9 +43,8 @@ src/
 
 ## How to Run the Project?
 
-1. 
-git clone https://github.com/filgowpk/e-dog-frontend.git
-cd e-dog
+1. Clone the repository:
+    git clone https://github.com/filgowpk/e-dog-frontend.git
 
 2. Install dependencies:
     npm install
@@ -54,4 +53,7 @@ cd e-dog
     npm run dev
 
 4. Open your browser and navigate to:
-    http://localhost:5173/"# e-dog-frontend" 
+    http://localhost:5173/
+
+---
+
