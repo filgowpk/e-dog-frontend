@@ -1,5 +1,5 @@
-// src/components/Header.js
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 import logo from '../assets/logo.png';
 import logo_interface from '../assets/interface.png';
@@ -8,15 +8,17 @@ function Header() {
   return (
     <header className="header">
       <div className="logo">
-        <img src={logo} alt="E-Dog Logo" className="header-logo-img" />
+        <Link to="/">
+          <img src={logo} alt="E-Dog Logo" className="header-logo-img" />
+        </Link>
       </div>
       <nav className="nav">
-        <a href="#quiz">Quiz</a>
-        <a href="#blog">Blog</a>
-        <a href="#advice">Porady</a>
-        <a href="#breeds">Rasy</a>
+        <Link to="/quiz">Quiz</Link>
+        <Link to="/blog">Blog</Link>
+        <Link to="/advice">Porady</Link>
+        <Link to="/breeds">Rasy</Link>
         <a href="$interface">
-          <img src={logo_interface} alt="E-Dog Logo" className="header-logo_interface-img" />
+          <img src={logo_interface} alt="Interface Logo" className="header-logo_interface-img" />
         </a>
       </nav>
     </header>

@@ -25,6 +25,7 @@ function MainContent() {
                 <p>Przeglądaj i porównuj wszystkie rasy psów</p>
                 <img src={Encyklopednia} alt="Psy - Encyklopedia" />
               </div>
+              
               <div className="card small-card">
                 <h3>Wyszukiwanie zaawansowane</h3>
                 <p>Kiedy już wiesz jakiej rasy psa szukasz</p>
