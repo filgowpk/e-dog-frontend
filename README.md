@@ -15,7 +15,10 @@
 ## 📸 Preview
 
 Below is a preview of the application:
-![E-Dog](https://github.com/user-attachments/assets/aeafc6df-c5b7-45a5-ba90-0be3b9a7009a)
+![E-Dog](https://github.com/user-attachments/assets/65d280eb-d7c5-4c60-a970-c9bd64377b34)
+
+Breeds page
+![rasy](https://github.com/user-attachments/assets/22709826-b0b9-4774-b9b3-eaba5667685a)
 
 
 ---
@@ -36,15 +39,20 @@ The project was built using the following technologies:
 
 ```plaintext
 src/
-├── assets/               # Images and icons
+├── assets/
+│   └── breeds/           
 ├── components/           # React components
 │   ├── Footer/           # Footer component
 │   ├── Header/           # Header component
 │   └── MainContent/      # Main content section
+├── pages/                # React components
+│   ├── Advice /          # Advice component
+│   ├── Blog /            # Blog component
+│   ├── Breeds /          # Breeds content section
+│   └── Quiz /            # Quiz component
 ├── App.js                # Main application file
 ├── index.js              # Application entry point
-├── App.css               # Main styles
-└── MainContent.css       # Styling for the main section
+└── App.css               # Main styles
 ```
 
 ---
