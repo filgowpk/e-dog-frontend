@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {FaUser} from 'react-icons/fa';
 import './Header.css';
 import logo from '../assets/logo.png';
-import logo_interface from '../assets/interface.png';
 
 function Header() {
+
   return (
     <header className="header">
       <div className="logo">
@@ -17,8 +18,9 @@ function Header() {
         <Link to="/blog">Blog</Link>
         <Link to="/advice">Porady</Link>
         <Link to="/breeds">Rasy</Link>
-        <a href="$interface">
-          <img src={logo_interface} alt="Interface Logo" className="header-logo_interface-img" />
+        
+        <a href="#">
+          <FaUser size={24} color="#ffffff" />
         </a>
       </nav>
     </header>

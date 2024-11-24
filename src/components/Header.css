@@ -10,17 +10,12 @@
     height: 50px;
   }
 
-  .header-logo_interface-img {
-    height: 30px;
-  }
-
-  
   .nav a {
     color: white;
     margin: 0 40px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 26px;
+    font-size: 24px;
   }
   
   .nav a:hover {
