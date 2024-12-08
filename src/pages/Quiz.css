@@ -1,7 +1,12 @@
-quiz-page {
-    padding: 20px;
-    background-color: #f9f3ed;
+.quiz-page {
     font-family: 'Arial', sans-serif;
     height: 100%;
-    width: 100vh;
+    width: 100%;
+    color: rgb(255, 255, 255);
+}
+
+.quiz-message {
+    text-align: center;
+    padding-top: 15%;
+    font-size: 22px;
 }

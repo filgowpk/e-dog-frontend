@@ -40,7 +40,7 @@ function MainContent() {
             </div>
             <div className="row">
               <div className="card full-width-card">
-                <div className="card-content" onClick={() => navigate('/Quiz')}>
+                <div className="card-content" onClick={() => navigate('/quiz')}>
                   <h2>Quiz</h2>
                   <p>Kiedy jeszcze nie wiesz, jaka rasa jest dla Ciebie odpowiednia i potrzebujesz pomocy</p>
                 </div>

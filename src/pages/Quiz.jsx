@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Quiz.css';
+import Loader from '../components/Loader.jsx';
 
 function Quiz() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="quiz-page">
-      <h1>Quiz o psach</h1>
-      <p>Rozwiąż quiz i sprawdź swoją wiedzę o psach!</p>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="quiz-message">
+          <p>Strona z quizami o psach będzie wkrótce dostępna!</p>
+        </div>
+      )}
     </div>
   );
 }

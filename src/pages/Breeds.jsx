@@ -1,42 +1,91 @@
-import React, { useState } from 'react';
-import { FaDog, FaPaw, FaBone, FaHeart, FaCouch, FaSearch } from 'react-icons/fa'
+import React, { useState, useEffect } from 'react';
+import { fetchDogs } from '../api/dogApi';
+import { Characteristic } from '../api/Characteristic.js';
+import { FaDog, FaPaw, FaBone, FaHeart, FaSearch } from 'react-icons/fa';
 import './Breeds.css';
+import Loader from '../components/Loader.jsx'
 
 function Breeds() {
-  const breeds = [
-    {
-      name: 'Berneński pies pasterski',
-      description: 'Spokojny, silny, lojalny',
-      image: 'src/assets/breeds/berneski_pies_pasterski.png',
-    },
-    {
-      name: 'Shiba Inu',
-      description: 'Czuły, aktywny, lojalny',
-      image: 'src/assets/breeds/shiba_inu.png',
-    },
-    {
-      name: 'Owczarek niemiecki',
-      description: 'Odważny, pewny siebie, mądry',
-      image: 'src/assets/breeds/owczarek_niemiecki.png',
-    },
-    {
-      name: 'Border Collie',
-      description: 'Inteligentny, pracowity, energiczny',
-      image: 'src/assets/breeds/border_collie.png',
-    },
-    {
-      name: 'Owczarek',
-      description: 'Wesoły, radosny, spokojny',
-      image: 'src/assets/breeds/owczarek.png',
-    },
-    {
-      name: 'Samoyed',
-      description: 'Przyjazny, wesoły, towarzyski',
-      image: 'src/assets/breeds/samoyed.png',
-    },
-  ];
-
   const [selectedFilters, setSelectedFilters] = useState([]);
+  const [breeds, setBreeds] = useState([]);  
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sizeFilter, setSizeFilter] = useState([]);
+  const [characteristicsFilter, setCharacteristicsFilter] = useState([]);
+  const [showAllCharacteristics, setShowAllCharacteristics] = useState(false);
+
+
+  useEffect(() => {
+    const loadDogs = async () => {
+      try {
+        const data = await fetchDogs(); 
+        setBreeds(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDogs();
+  }, []);
+
+  if (loading) {
+    return <Loader />
+  }
+
+  if (error) {
+    return <div className='error'>
+              Skontaktuj się z administratorem. 
+              <br />Email: edog@gmail.com
+              <br />Telefon: 123 123 123
+            </div>;
+  }
+
+  const filteredByName = breeds.filter(breed => 
+    breed.breed_pl.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const toggleShowAllCharacteristics = () => {
+    setShowAllCharacteristics((prev) => !prev);
+  };
+  
+  const filteredBySize = filteredByName.filter(breed => {
+    const height = breed.height;
+
+    if (sizeFilter.length === 0) {
+      return true;
+    }
+
+    if (sizeFilter.includes('small') && height <= 40) {
+      return true;
+    } else if (sizeFilter.includes('medium') && height > 40 && height <= 60) {
+      return true;
+    } else if (sizeFilter.includes('large') && height > 60) {
+      return true;
+    }
+
+    return false;
+  });
+
+  const handleCharacteristicsChange = (e) => {
+    const value = e.target.name;
+    setCharacteristicsFilter((prevState) =>
+        prevState.includes(value)
+            ? prevState.filter((item) => item !== value)
+            : [...prevState, value]
+    );
+  };
+
+  const filteredByCharacteristics = filteredBySize.filter((breed) => {
+      if (characteristicsFilter.length === 0) return true;
+      return characteristicsFilter.every((charKey) =>
+          breed.characteristics.includes(charKey)
+      );
+  });
+
+  const finalFilteredBreeds = filteredByCharacteristics;
 
   const toggleFilter = (filter) => {
     setSelectedFilters((prev) =>
@@ -46,23 +95,12 @@ function Breeds() {
     );
   };
 
-  const toggleDropdown = () => {
-    setIsOpen(prevState => !prevState);
-  };
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [filters, setFilters] = useState({
-    kidsFriendly: false,
-    otherAnimalsFriendly: false,
-    noisy: false,
-  });
-
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target;
-    setFilters(prevFilters => ({
-      ...prevFilters,
-      [name]: checked,
-    }));
+  const handleSizeChange = (size) => {
+    if (sizeFilter.includes(size)) {
+      setSizeFilter(sizeFilter.filter(item => item !== size));
+    } else {
+      setSizeFilter([...sizeFilter, size]);
+    }
   };
 
   return (
@@ -77,116 +115,87 @@ function Breeds() {
             <h3>Szukaj po nazwie</h3>
             <div className='search-wrapper'>
               <FaSearch id='search-icon' />
-              <input type="text" id="search-name" placeholder="Wpisz nazwę rasy..." />
+              <input
+                type="text"
+                id="search-name"
+                placeholder="Wpisz nazwę rasy..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
-          </div>
-
-          <div className="filter-group">
-            <h3>Grupa</h3>
-            <label>
-              <input
-                type="checkbox"
-                onChange={() => toggleFilter('Psy pasterskie / Owczarki')}
-              />
-              Psy pasterskie / Owczarki
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                onChange={() => toggleFilter('Spice i psy w typie pierwotnym')}
-              />
-              Szpice i psy w typie pierwotnym
-            </label>
-            <label>
-              <input type="checkbox" onChange={() => toggleFilter('Terriery')} />
-              Terriery
-            </label>
-            <label>
-              <input type="checkbox" onChange={() => toggleFilter('Jamniki')} />
-              Jamniki
-            </label>
-            <label>
-              <input type="checkbox" onChange={() => toggleFilter('Aportery, płochacze i psy dowodne')} />
-              Aportery, płochacze i psy dowodne
-            </label>
-            <a href="#" className="more-filters">Pokaż kolejne 5 filtrów</a>
           </div>
 
           <div className="filter-group">
             <h3>Wielkość</h3>
             <label>
-              <input type="checkbox" onChange={() => toggleFilter('Rasy duże')} />
-              Rasy duże
+              <input 
+                type="checkbox" 
+                name="size" 
+                value="small" 
+                checked={sizeFilter.includes('small')} 
+                onChange={() => handleSizeChange('small')}
+              />
+              Rasy małe
             </label>
             <label>
-              <input
-                type="checkbox"
-                onChange={() => toggleFilter('Rasy średnie')}
+              <input 
+                type="checkbox" 
+                name="size" 
+                value="medium" 
+                checked={sizeFilter.includes('medium')} 
+                onChange={() => handleSizeChange('medium')}
               />
               Rasy średnie
             </label>
             <label>
-              <input type="checkbox" onChange={() => toggleFilter('Rasy małe')} />
-              Rasy małe
-            </label>
-          </div>
-
-          <div className="filter-group">
-            <h3>Wielkość</h3>
-            <label>
-              <input type="checkbox" onChange={() => toggleFilter('Rasy duże')} />
+              <input 
+                type="checkbox" 
+                name="size" 
+                value="large" 
+                checked={sizeFilter.includes('large')} 
+                onChange={() => handleSizeChange('large')}
+              />
               Rasy duże
             </label>
-            <label>
-              <input
-                type="checkbox"
-                onChange={() => toggleFilter('Rasy średnie')}
-              />
-              Rasy średnie
-            </label>
-            <label>
-              <input type="checkbox" onChange={() => toggleFilter('Rasy małe')} />
-              Rasy małe
-            </label>
           </div>
 
-          <div className="filter-group">
-          <details className={`filter-details ${isOpen ? 'open' : ''}`}>
-            <summary onClick={toggleDropdown}><h3>Charakter</h3></summary>
-            <div className="checkbox-group">
-              <label>
-                <input 
-                  type="checkbox" 
-                  name="kidsFriendly" 
-                  checked={filters.kidsFriendly}
-                  onChange={handleCheckboxChange}
-                />
-                Przyjazne względem dzieci
-              </label>
-              <label>
-                <input 
-                  type="checkbox" 
-                  name="otherAnimalsFriendly" 
-                  checked={filters.otherAnimalsFriendly}
-                  onChange={handleCheckboxChange}
-                />
-                Przyjazne dla innych zwierząt
-              </label>
-              <label>
-                <input 
-                  type="checkbox" 
-                  name="noisy" 
-                  checked={filters.noisy}
-                  onChange={handleCheckboxChange}
-                />
-                Hałaśliwe
-              </label>
+          <div className="checkbox-group">
+              <h3>Charakter</h3>
+              {showAllCharacteristics
+                  ? Object.keys(Characteristic).map((char, index) => (
+                      <label key={index}>
+                          <input
+                              type="checkbox"
+                              name={Characteristic[char].key}
+                              checked={characteristicsFilter.includes(Characteristic[char].key)}
+                              onChange={handleCharacteristicsChange}
+                          />
+                          {Characteristic[char].label}
+                      </label>
+                  ))
+                  : Object.keys(Characteristic).slice(0, 3).map((char, index) => (
+                      <label key={index}>
+                          <input
+                              type="checkbox"
+                              name={Characteristic[char].key}
+                              checked={characteristicsFilter.includes(Characteristic[char].key)}
+                              onChange={handleCharacteristicsChange}
+                          />
+                          {Characteristic[char].label}
+                      </label>
+                  ))}
             </div>
-            <a href="#" className="more-filters">Pokaż kolejne 12 filtrów</a>
-          </details>
-          </div>
+          <a
+            href="#"
+            className="more-filters"
+            onClick={(e) => {
+              e.preventDefault();
+              toggleShowAllCharacteristics();
+            }}
+          >
+            {showAllCharacteristics ? "Pokaż mniej filtrów" : "Pokaż więcej filtrów"}
+          </a>
 
-          <button className="filter-button">Filtruj</button>
         </aside>
       </div>
 
@@ -194,20 +203,17 @@ function Breeds() {
         <div className="popular-filters">
           <h2>Popularne filtry</h2>
           <div className="filter-buttons">
-            <button onClick={() => toggleFilter('Rasy małe')}>
+            <button onClick={() => handleSizeChange('small')}>
               <FaDog size={30} /> Rasy małe
             </button>
-            <button onClick={() => toggleFilter('Rasy średnie')}>
+            <button onClick={() => handleSizeChange('medium')}>
               <FaPaw size={30} /> Rasy średnie
             </button>
-            <button onClick={() => toggleFilter('Rasy duże')}>
+            <button onClick={() => handleSizeChange('large')}>
               <FaBone size={30} /> Rasy duże
             </button>
-            <button onClick={() => toggleFilter('Rasy aktywne')}>
-              <FaHeart size={30} /> Rasy aktywne
-            </button>
-            <button onClick={() => toggleFilter('Kanapowce')}>
-              <FaCouch size={30} /> Kanapowce
+            <button onClick={() => setSizeFilter([])}>
+              <FaHeart size={30} /> Wyczyść rozmiar
             </button>
           </div>
         </div>
@@ -221,15 +227,15 @@ function Breeds() {
         </div>
 
         <div className="breeds-cards">
-          {breeds.map((breed, index) => (
+          {finalFilteredBreeds.map((breed, index) => (
             <div className="breed-card" key={index}>
               <img
-                src={breed.image}
-                alt={breed.name}
+                src={breed.imageUrl}
+                alt={breed.breed}
                 className="breed-card-image"
               />
-              <h3>{breed.name}</h3>
-              <p>{breed.description}</p>
+              <h3>{breed.breed_pl}</h3>
+              <p>{breed.shortDescription}</p>
             </div>
           ))}
         </div>

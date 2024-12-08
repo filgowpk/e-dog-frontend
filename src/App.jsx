@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { login } from './api/auth';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
@@ -10,6 +11,19 @@ import Breeds from './pages/Breeds.jsx';
 import './App.css';
 
 function App() {
+  useEffect(() => {
+    const authenticate = async () => {
+        try {
+            const data = await login();
+            //console.log("Login successful:", data);
+        } catch (error) {
+            console.error("Authentication error:", error);
+        }
+    };
+
+    authenticate();
+}, []);
+
   return (
     <Router>
       <div className="App">

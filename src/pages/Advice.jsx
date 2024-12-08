@@ -1,11 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Advice.css';
+import Loader from '../components/Loader.jsx';
 
 function Advice() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="advice-page">
-      <h1>Porady o psach</h1>
-      <p>Różne poradniki!</p>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="quiz-message">
+          <p>Strona z poradami będzie wkrótce dostępna!</p>
+        </div>
+      )}
     </div>
   );
 }
