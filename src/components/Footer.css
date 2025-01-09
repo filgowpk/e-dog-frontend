@@ -1,5 +1,5 @@
 .footer {
-    background-color: #D1A684;
+    background-color: #B58771;
     color: #3E2C28; 
     padding: 20px 40px;
     display: flex;
@@ -24,6 +24,7 @@
   .footer-logo-img {
     width: var(--footer-logo-size);
     height: auto;
+    mix-blend-mode: soft-light;
   }
   
   .footer-links {

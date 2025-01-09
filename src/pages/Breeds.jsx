@@ -1,25 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import { fetchDogs } from '../api/dogApi';
-import { Characteristic } from '../api/Characteristic.js';
-import { FaDog, FaPaw, FaBone, FaHeart, FaSearch } from 'react-icons/fa';
-import './Breeds.css';
-import Loader from '../components/Loader.jsx'
-
+import React, { useState, useEffect } from "react";
+import { fetchDogs } from "../api/dogApi";
+import { Characteristic } from "../api/Characteristic.js";
+import {
+  FaDog,
+  FaPaw,
+  FaBone,
+  FaHeart,
+  FaSearch,
+  FaBaseballBall,
+  FaShieldAlt,
+} from "react-icons/fa";
+import "./Breeds.css";
+import Loader from "../components/Loader.jsx";
+import { useNavigate } from "react-router-dom";
 function Breeds() {
   const [selectedFilters, setSelectedFilters] = useState([]);
-  const [breeds, setBreeds] = useState([]);  
+  const [breeds, setBreeds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [sizeFilter, setSizeFilter] = useState([]);
   const [characteristicsFilter, setCharacteristicsFilter] = useState([]);
   const [showAllCharacteristics, setShowAllCharacteristics] = useState(false);
-
-
+  const navigate = useNavigate();
   useEffect(() => {
     const loadDogs = async () => {
       try {
-        const data = await fetchDogs(); 
+        const data = await fetchDogs();
         setBreeds(data);
       } catch (err) {
         setError(err.message);
@@ -32,37 +39,41 @@ function Breeds() {
   }, []);
 
   if (loading) {
-    return <Loader />
+    return <Loader />;
   }
 
   if (error) {
-    return <div className='error'>
-              Skontaktuj się z administratorem. 
-              <br />Email: edog@gmail.com
-              <br />Telefon: 123 123 123
-            </div>;
+    return (
+      <div className="error">
+        Skontaktuj się z administratorem.
+        <br />
+        Email: edog@gmail.com
+        <br />
+        Telefon: 123 123 123
+      </div>
+    );
   }
 
-  const filteredByName = breeds.filter(breed => 
+  const filteredByName = breeds.filter((breed) =>
     breed.breed_pl.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const toggleShowAllCharacteristics = () => {
     setShowAllCharacteristics((prev) => !prev);
   };
-  
-  const filteredBySize = filteredByName.filter(breed => {
+
+  const filteredBySize = filteredByName.filter((breed) => {
     const height = breed.height;
 
     if (sizeFilter.length === 0) {
       return true;
     }
 
-    if (sizeFilter.includes('small') && height <= 40) {
+    if (sizeFilter.includes("small") && height <= 40) {
       return true;
-    } else if (sizeFilter.includes('medium') && height > 40 && height <= 60) {
+    } else if (sizeFilter.includes("medium") && height > 40 && height <= 60) {
       return true;
-    } else if (sizeFilter.includes('large') && height > 60) {
+    } else if (sizeFilter.includes("large") && height > 60) {
       return true;
     }
 
@@ -72,17 +83,17 @@ function Breeds() {
   const handleCharacteristicsChange = (e) => {
     const value = e.target.name;
     setCharacteristicsFilter((prevState) =>
-        prevState.includes(value)
-            ? prevState.filter((item) => item !== value)
-            : [...prevState, value]
+      prevState.includes(value)
+        ? prevState.filter((item) => item !== value)
+        : [...prevState, value]
     );
   };
 
   const filteredByCharacteristics = filteredBySize.filter((breed) => {
-      if (characteristicsFilter.length === 0) return true;
-      return characteristicsFilter.every((charKey) =>
-          breed.characteristics.includes(charKey)
-      );
+    if (characteristicsFilter.length === 0) return true;
+    return characteristicsFilter.every((charKey) =>
+      breed.characteristics.includes(charKey)
+    );
   });
 
   const finalFilteredBreeds = filteredByCharacteristics;
@@ -97,7 +108,7 @@ function Breeds() {
 
   const handleSizeChange = (size) => {
     if (sizeFilter.includes(size)) {
-      setSizeFilter(sizeFilter.filter(item => item !== size));
+      setSizeFilter(sizeFilter.filter((item) => item !== size));
     } else {
       setSizeFilter([...sizeFilter, size]);
     }
@@ -105,16 +116,16 @@ function Breeds() {
 
   return (
     <div className="breeds-container">
-      <div className='breeds-group'>
-        <div className='breeds-name'>
+      <div className="breeds-group">
+        <div className="breeds-name">
           <h2>Filtry</h2>
         </div>
 
         <aside className="breeds-filters">
-          <div className='filter-group'>
+          <div className="filter-group">
             <h3>Szukaj po nazwie</h3>
-            <div className='search-wrapper'>
-              <FaSearch id='search-icon' />
+            <div className="search-wrapper">
+              <FaSearch id="search-icon" />
               <input
                 type="text"
                 id="search-name"
@@ -128,63 +139,69 @@ function Breeds() {
           <div className="filter-group">
             <h3>Wielkość</h3>
             <label>
-              <input 
-                type="checkbox" 
-                name="size" 
-                value="small" 
-                checked={sizeFilter.includes('small')} 
-                onChange={() => handleSizeChange('small')}
+              <input
+                type="checkbox"
+                name="size"
+                value="small"
+                checked={sizeFilter.includes("small")}
+                onChange={() => handleSizeChange("small")}
               />
               Rasy małe
             </label>
             <label>
-              <input 
-                type="checkbox" 
-                name="size" 
-                value="medium" 
-                checked={sizeFilter.includes('medium')} 
-                onChange={() => handleSizeChange('medium')}
+              <input
+                type="checkbox"
+                name="size"
+                value="medium"
+                checked={sizeFilter.includes("medium")}
+                onChange={() => handleSizeChange("medium")}
               />
               Rasy średnie
             </label>
             <label>
-              <input 
-                type="checkbox" 
-                name="size" 
-                value="large" 
-                checked={sizeFilter.includes('large')} 
-                onChange={() => handleSizeChange('large')}
+              <input
+                type="checkbox"
+                name="size"
+                value="large"
+                checked={sizeFilter.includes("large")}
+                onChange={() => handleSizeChange("large")}
               />
               Rasy duże
             </label>
           </div>
 
           <div className="checkbox-group">
-              <h3>Charakter</h3>
-              {showAllCharacteristics
-                  ? Object.keys(Characteristic).map((char, index) => (
-                      <label key={index}>
-                          <input
-                              type="checkbox"
-                              name={Characteristic[char].key}
-                              checked={characteristicsFilter.includes(Characteristic[char].key)}
-                              onChange={handleCharacteristicsChange}
-                          />
-                          {Characteristic[char].label}
-                      </label>
-                  ))
-                  : Object.keys(Characteristic).slice(0, 3).map((char, index) => (
-                      <label key={index}>
-                          <input
-                              type="checkbox"
-                              name={Characteristic[char].key}
-                              checked={characteristicsFilter.includes(Characteristic[char].key)}
-                              onChange={handleCharacteristicsChange}
-                          />
-                          {Characteristic[char].label}
-                      </label>
+            <h3>Charakter</h3>
+            {showAllCharacteristics
+              ? Object.keys(Characteristic).map((char, index) => (
+                  <label key={index}>
+                    <input
+                      type="checkbox"
+                      name={Characteristic[char].key}
+                      checked={characteristicsFilter.includes(
+                        Characteristic[char].key
+                      )}
+                      onChange={handleCharacteristicsChange}
+                    />
+                    {Characteristic[char].label}
+                  </label>
+                ))
+              : Object.keys(Characteristic)
+                  .slice(0, 3)
+                  .map((char, index) => (
+                    <label key={index}>
+                      <input
+                        type="checkbox"
+                        name={Characteristic[char].key}
+                        checked={characteristicsFilter.includes(
+                          Characteristic[char].key
+                        )}
+                        onChange={handleCharacteristicsChange}
+                      />
+                      {Characteristic[char].label}
+                    </label>
                   ))}
-            </div>
+          </div>
           <a
             href="#"
             className="more-filters"
@@ -193,9 +210,10 @@ function Breeds() {
               toggleShowAllCharacteristics();
             }}
           >
-            {showAllCharacteristics ? "Pokaż mniej filtrów" : "Pokaż więcej filtrów"}
+            {showAllCharacteristics
+              ? "Pokaż mniej filtrów"
+              : "Pokaż więcej filtrów"}
           </a>
-
         </aside>
       </div>
 
@@ -203,17 +221,31 @@ function Breeds() {
         <div className="popular-filters">
           <h2>Popularne filtry</h2>
           <div className="filter-buttons">
-            <button onClick={() => handleSizeChange('small')}>
-              <FaDog size={30} /> Rasy małe
+            <button onClick={() => handleSizeChange("small")}>
+              <FaDog size={45} /> Rasy małe
             </button>
-            <button onClick={() => handleSizeChange('medium')}>
-              <FaPaw size={30} /> Rasy średnie
+            <button onClick={() => handleSizeChange("medium")}>
+              <FaPaw size={45} /> Rasy średnie
             </button>
-            <button onClick={() => handleSizeChange('large')}>
-              <FaBone size={30} /> Rasy duże
+            <button onClick={() => handleSizeChange("large")}>
+              <FaBone size={45} /> Rasy duże
+            </button>
+            <button
+              onClick={() =>
+                handleCharacteristicsChange({ target: { name: "ACTIVE" } })
+              }
+            >
+              <FaBaseballBall size={45} /> Rasy aktywne
+            </button>
+            <button
+              onClick={() =>
+                handleCharacteristicsChange({ target: { name: "ALERT" } })
+              }
+            >
+              <FaShieldAlt size={45} /> Rasy czujne
             </button>
             <button onClick={() => setSizeFilter([])}>
-              <FaHeart size={30} /> Wyczyść rozmiar
+              <FaHeart size={45} /> Wyczyść rozmiar
             </button>
           </div>
         </div>
@@ -228,7 +260,15 @@ function Breeds() {
 
         <div className="breeds-cards">
           {finalFilteredBreeds.map((breed, index) => (
-            <div className="breed-card" key={index}>
+            <div
+              className="breed-card"
+              key={index}
+              onClick={() =>
+                navigate(`/breed/${breed.breed}`, {
+                  state: { breed },
+                })
+              }
+            >
               <img
                 src={breed.imageUrl}
                 alt={breed.breed}
