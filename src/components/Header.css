@@ -11,6 +11,10 @@
     mix-blend-mode: soft-light;
   }
 
+  .modal-header-logo-img {
+    height: 50px;
+  }
+
   .nav a {
     color: white;
     margin: 0 40px;
