@@ -2,12 +2,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #D1A684;
+    background-color: #B58771;
     padding: 20px 40px;
   }
   
   .header-logo-img {
     height: 50px;
+    mix-blend-mode: soft-light;
   }
 
   .nav a {

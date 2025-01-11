@@ -1,0 +1,73 @@
+.main{
+  margin: 0 auto;
+  width: 960px;
+  text-align: center;
+}
+
+.name-info { 
+  color:white;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px
+}
+
+.breed-container {
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+  margin-bottom: 48px;
+}
+
+.breed-container img {
+  width: 300px;
+  align-self: center;
+}
+
+.back-arrow {
+  display: flex;
+  position:absolute;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  color:white
+}
+
+.title {
+  font-weight: 700;
+  width:250px;
+  text-align: left;
+}
+
+.characteristic {
+  display: flex;
+  gap: 8px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.characteristic p {
+ width: 250px;
+}
+
+.characteristic .paws {
+  width: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px
+}
+
+.paw-inactive {
+  fill: rgb(207, 207, 207);
+  stroke: #4E75D9
+}
+
+.paw-active { 
+  fill: #4E75D9
+}
